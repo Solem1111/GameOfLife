@@ -4,7 +4,7 @@ from .maptopo import areas
 
 def rules_game_of_life(land):
     for index, value in land.items():
-        if value.etat == "None" and value.Neighbours_fertilizer(land) >= 3:
+        if value.etat == "None" and value.neighbours_fertilizer(land) >= 3:
             if land[index].humidity:
                 value.etat = "Vegetal"
             else:
