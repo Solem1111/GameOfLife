@@ -1,8 +1,8 @@
-import Models.Define as Define
-import Models.MapTopo.Areas as Areas
+from . import define
+from .maptopo import areas
 
 
-def RulesGameOfLife(land):
+def rules_game_of_life(land):
     for index, value in land.items():
         if value.etat == "None" and value.Neighbours_fertilizer(land) >= 3:
             if land[index].humidity:
@@ -11,15 +11,15 @@ def RulesGameOfLife(land):
                 land[index].humidity = True
 
 
-def ConcatInt(a, b):
+def concat_int(a, b):
     if type(a) != int or type(b) != int:
         return "Error a ou b ne sont pas des int"
     try:
-        lenght_max_coordinate = len(str(Define.TAILLEMAP-1))
+        lenght_max_coordinate = len(str(define.TAILLEMAP-1))
     except:
         return "TAILLEMAP n'est pas transformable en string"
     try:
-         c = str(a)
+        c = str(a)
     except:
         return "a mal caster"
     try:
@@ -44,9 +44,9 @@ def ConcatInt(a, b):
         return "probème de cast"
 
 
-def DeconcatInt(a):
+def deconcat_int(a):
     try:
-        lenght_max_coordinate = len(str(Define.TAILLEMAP - 1))
+        lenght_max_coordinate = len(str(define.TAILLEMAP - 1))
     except:
         return "TAILLEMAP n'est pas transformable en string"
     return int(a[:lenght_max_coordinate]), int(a[lenght_max_coordinate:])
@@ -65,6 +65,6 @@ def nearest_higher_multiple(number_to_flank, multiple):
 
 
 def first_seed(land):
-    for i in range(0, Define.TAILLEMAP//Define.TAILLEAREA):
-        for j in range(0, Define.TAILLEMAP // Define.TAILLEAREA):
-            Areas.lake(land, i*Define.TAILLEAREA, j*Define.TAILLEAREA)
+    for i in range(0, define.TAILLEMAP//define.TAILLEAREA):
+        for j in range(0, define.TAILLEMAP // define.TAILLEAREA):
+            areas.lake(land, i*define.TAILLEAREA, j*define.TAILLEAREA)

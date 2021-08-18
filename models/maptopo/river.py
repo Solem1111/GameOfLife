@@ -1,7 +1,7 @@
 import random
 
-from Models.Rules import ConcatInt, DeconcatInt
-import Models.Define as Define
+from ..rules import concat_int, deconcat_int
+
 
 class River:
     def __init__(self, source_x=-1, source_y=-1):
@@ -9,16 +9,15 @@ class River:
         self._sourceY = source_y
 
     # method
-    def build_river(self,land, x=None, y=None):
+    def build_river(self, land, x=None, y=None):
         x = self._sourceX if x is None else x
         y = self._sourceY if y is None else y
         choice_next = [neighbour
-                       for neighbour in land[ConcatInt(x, y)].inondable_neighbours(land)]
+                       for neighbour in land[concat_int(x, y)].inondable_neighbours(land)]
         if choice_next:
             choosen = random.choice(choice_next)
             land[choosen].etat = "River"
-            self.build_river(land, DeconcatInt(choosen)[0], DeconcatInt(choosen)[1])
-
+            self.build_river(land, deconcat_int(choosen)[0], deconcat_int(choosen)[1])
 
     # ? getter
     def _get_source_x(self):

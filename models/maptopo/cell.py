@@ -1,7 +1,5 @@
-import random
-
-import Models.Define as Define
-from Models.Rules import ConcatInt, nearest_higher_multiple, nearest_lower_multiple
+from .. import define
+from ..rules import concat_int, nearest_higher_multiple, nearest_lower_multiple
 
 
 class Cell:
@@ -19,20 +17,20 @@ class Cell:
 
     @property
     def cells_in_same_area(self):
-        lower_x = nearest_lower_multiple(self.x, Define.TAILLEAREA)
-        lower_y = nearest_lower_multiple(self.y, Define.TAILLEAREA)
-        higher_x = nearest_higher_multiple(self.x, Define.TAILLEAREA)
-        higher_y = nearest_higher_multiple(self.y, Define.TAILLEAREA)
-        return [ConcatInt(i, j)
+        lower_x = nearest_lower_multiple(self.x, define.TAILLEAREA)
+        lower_y = nearest_lower_multiple(self.y, define.TAILLEAREA)
+        higher_x = nearest_higher_multiple(self.x, define.TAILLEAREA)
+        higher_y = nearest_higher_multiple(self.y, define.TAILLEAREA)
+        return [concat_int(i, j)
                 for i in range(lower_x, higher_x)
-                for j in range(lower_x, higher_x)]
+                for j in range(lower_y, higher_y)]
 
     @property
     def neighbours_keys(self):
-        return [ConcatInt(self.x + i, self.y + j)
+        return [concat_int(self.x + i, self.y + j)
                 for i in range(-1, 2)
                 for j in range(-1, 2)
-                if ((i, j) != (0, 0) and 0 <= self.x + i < Define.TAILLEMAP and 0 <= self.y + j < Define.TAILLEMAP)]
+                if ((i, j) != (0, 0) and 0 <= self.x + i < define.TAILLEMAP and 0 <= self.y + j < define.TAILLEMAP)]
 
     def lowest_height_of_neighbours(self, land):
         return min([land[element].topology
@@ -41,14 +39,16 @@ class Cell:
     def inondable_neighbours(self, land):
         return [neighbour
                 for neighbour in self.neighbours_keys
-                if land[neighbour].etat != "River" and land[neighbour].topology == self.lowest_height_of_neighbours(land)]
+                if land[neighbour].etat != "River" and
+                land[neighbour].topology == self.lowest_height_of_neighbours(land)]
 
-    def Neighbours_fertilizer(self, land):
+    def neighbours_fertilizer(self, land):
         i = 0
         for neighbour_key in self.neighbours_keys:
             if land[neighbour_key].etat == "River" or land[neighbour_key].etat == "Vegetal":
                 i += 1
         return i
+
     # getter
     def _get_etat(self):
         try:
