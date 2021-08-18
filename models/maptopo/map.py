@@ -1,8 +1,8 @@
 import random
 
-from cell import Cell
+from .cell import Cell
 from ..rules import concat_int, deconcat_int
-from river import River
+from .river import River
 
 
 class MapCarre:
